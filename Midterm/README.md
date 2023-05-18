@@ -72,11 +72,11 @@ FROM Course c
 JOIN Enroll e ON e.cid = c.id
 GROUP BY c.name
 HAVING COUNT(e.sid) = (
-    SELECT TOP 1 COUNT(Enroll.sid)
-                      FROM Course
-                      JOIN Enroll ON Enroll.cid = Course.id
-                      GROUP BY Course.name
-                      ORDER BY COUNT(Enroll.sid) DESC
+    SELECT TOP 1 COUNT(e.sid)
+                      FROM Course c
+                      JOIN Enroll e ON e.cid = c.id
+                      GROUP BY c.name
+                      ORDER BY COUNT(e.sid) DESC
 );
 ```
 
@@ -95,6 +95,22 @@ WHERE EXISTS (
     FROM Enroll e
     JOIN Course c ON e.cid = c.id
     WHERE e.sid = s.id AND c.name = 'Networking'
+);
+```
+
+or
+
+```sql
+SELECT s.name
+FROM Student s
+JOIN Enroll e ON s.id = e.sid
+JOIN Course c ON e.cid = c.id
+WHERE c.name = 'Database' AND s.id IN (
+    SELECT s.id
+    FROM Student s
+    JOIN Enroll e ON s.id = e.sid
+    JOIN Course c ON e.cid = c.id
+    WHERE c.name = 'Networking'
 );
 ```
 
