@@ -1,6 +1,14 @@
 # Đề 1
 
-Here are the SQL statements for each of the questions:
+Given the following database schema:
+
+> Student(**id**, name, date_of_birth, city)
+>
+> Course(**id**, name)
+>
+> Enroll(**sid**, **cid**, grade)
+
+Assume date_of birth has date datatype. Please write SQL statements for the following questions:
 
 a. Create table Student with the constraint that student age should be over 17.
 
@@ -97,6 +105,4 @@ WHERE e.sid IS NULL;
 Relational algebra expression for the question:
 List the name of all students from “Hanoi”, taking the course “Database” with the final grades > 8.
 
-```sql
-π_name(σ_city='Hanoi' ∧ grade>8 ∧ course_name='Database'(Student ⨝ Enroll ⨝ Course))
-```
+$$ \pi_{name}(\sigma_{city='Hanoi' \land grade>8 \land course.name='Database'}(Student \bowtie Enroll \bowtie Course)) $$
