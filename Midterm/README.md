@@ -15,10 +15,10 @@ a. Create table Student with the constraint that student age should be over 17.
 ```sql
 CREATE TABLE Student (
     id INT PRIMARY KEY,
-    name VARCHAR(255),
+    name VARCHAR(50),
     date_of_birth DATE,
-    city VARCHAR(255),
-    CHECK (DATEDIFF(YEAR, date_of_birth, GETDATE()) > 17)
+    city VARCHAR(20),
+    CONSTRAINT chk_age CHECK (DATEDIFF(YEAR, date_of_birth, GETDATE()) > 17)
 );
 ```
 
@@ -62,6 +62,22 @@ WITH CourseEnrollment AS (
 SELECT name
 FROM CourseEnrollment
 WHERE num_students = (SELECT MAX(num_students) FROM CourseEnrollment);
+```
+
+or
+
+```sql
+SELECT c.name
+FROM Course c
+JOIN Enroll e ON e.cid = c.id
+GROUP BY c.name
+HAVING COUNT(e.sid) = (
+    SELECT TOP 1 COUNT(Enroll.sid)
+                      FROM Course
+                      JOIN Enroll ON Enroll.cid = Course.id
+                      GROUP BY Course.name
+                      ORDER BY COUNT(Enroll.sid) DESC
+);
 ```
 
 f. Show the name of all students that enrolled in “database” and also “networking”.
