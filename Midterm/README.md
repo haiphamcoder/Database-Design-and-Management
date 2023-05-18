@@ -1,14 +1,10 @@
-# Đề 1
+# Database Design and Management
 
-Given the following database schema:
+## Đề 1
 
-> Student(**id**, name, date_of_birth, city)
->
-> Course(**id**, name)
->
-> Enroll(**sid**, **cid**, grade)
+![DE1](%C4%90%E1%BB%81%201.png)
 
-Assume date_of birth has date datatype. Please write SQL statements for the following questions:
+### Solve
 
 a. Create table Student with the constraint that student age should be over 17.
 
