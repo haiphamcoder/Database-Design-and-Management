@@ -134,3 +134,77 @@ Relational algebra expression for the question:
 List the name of all students from “Hanoi”, taking the course “Database” with the final grades > 8.
 
 $$ \pi_{name}(\sigma_{city='Hanoi' \land grade>8 \land course.name='Database'}(Student \bowtie Enroll \bowtie Course)) $$
+
+## Đề 2
+
+![Đề 2](%C4%90%E1%BB%81%202.png)
+
+### Giải
+
+a. Liệt kê tên các nhân viên vừa tham gia dự án “Falcon-9” vừa tham gia dự án “Tesla”
+
+```sql
+SELECT e.Name
+FROM Employee e
+JOIN Enroll er ON e.ID = er.EID
+JOIN Project p ON p.ID = er.PID
+WHERE p.Name = 'Falcon-9' AND e.ID IN (
+    SELECT er.EID
+    FROM Enroll er 
+    JOIN Project p ON p.ID = er.PID
+    WHERE p.Name = 'Tesla'
+);
+```
+
+b. Liệt kê tên các nhân không tham gia dự án “Tesla
+
+```sql
+SELECT e.Name
+FROM Employee e
+WHERE e.ID NOT IN (
+    SELECT er.EID
+    FROM Enroll er
+    JOIN Project p ON er.PID = p.ID AND p.Name = 'Tesla'
+);
+```
+
+c. Liệt kê ID nhân viên tham gia đồng thời tất cả các dự án còn lại ngoài dự án “Tesla”
+
+d. Liệt kê ID một nhân viên tham gia nhiều dự án nhất
+
+```sql
+SELECT er.EID
+FROM Enroll er
+GROUP BY er.EID
+HAVING COUNT(er.EID) = (
+    SELECT MAX(project_count)
+    FROM (
+        SELECT COUNT(PID) as project_count
+        FROM Enroll
+        GROUP BY EID
+    ) AS Subquery
+)
+```
+
+e. Liệt kê tất tất cả các nhân viên tham gia ít nhất 3 dự án, và tổng mức lương khi tham gia các dự án của họ là ít nhất
+
+```sql
+SELECT e.*
+FROM Employee e
+JOIN Enroll er ON e.ID = er.EID
+GROUP BY e.ID
+HAVING COUNT(er.PID) >= 3
+ORDER BY SUM(er.salary) ASC;
+```
+
+f. Liệt kê các nhân viên mà họ luôn có mức lương cao nhất trong tất cả các dự án mà họ tham gia
+
+g. Với mỗi dự án, liệt kê tên dự án, số người tham gia, số nam, số nữ trong dự án
+
+h. Liệt kê tên dự án mà budget đang nhỏ hơn lương của tất cả các nhân viên trong dự án đó cộng lại
+
+i. Liệt kê tên các dự án mà không có dự án khác có cùng số lượng nhân viên tham gia
+
+j. Liệt kê tên nhân viên, tên dự án mà lương của họ trong dự án đó bằng lương của tất cả các nhân viên trong nhóm đó cộng lại
+
+k. Liệt kê các dự án có tỉ lệ số nhân viên lữ tham gia lớn hơn 30%
