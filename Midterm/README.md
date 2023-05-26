@@ -199,6 +199,10 @@ ORDER BY SUM(er.salary) ASC;
 
 f. Liệt kê các nhân viên mà họ luôn có mức lương cao nhất trong tất cả các dự án mà họ tham gia
 
+```sql
+
+```
+
 g. Với mỗi dự án, liệt kê tên dự án, số người tham gia, số nam, số nữ trong dự án
 
 h. Liệt kê tên dự án mà budget đang nhỏ hơn lương của tất cả các nhân viên trong dự án đó cộng lại
